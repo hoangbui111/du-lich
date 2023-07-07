@@ -13,21 +13,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
- $connection = new PDO("mysql:host=127.0.0.1;dbname=tiktok", "root", "Tronghoang1*");
+use Illuminate\Support\Facades\DB;
 
-
- $query = "SELECT username FROM tiktok.tbl_user";
- $result = $connection->query($query);
-
-while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-     echo "Hello, " . $row['username'] . "!";
- }
-
-Route::get("/", function(){
-    return view("welcome");
-} );
-
-
- $connection = null;
-?>
+Route::get('/', function () {
+    $users = DB::table('tbl_user')->select('username')->get();
+    return view('welcome', ['users' => $users]);
+});
 
